@@ -5,38 +5,36 @@ package test;
 
 public class test {
     public static void main(String[] args) {
-        String len1 = "150";
-        String len2 = "25";
+        String len1 = "170";
+        String len2 = "50";
         String result;
-        myBigNum FirstNum = new myBigNum(len1, len2);
+        MyBigNum FirstNum = new MyBigNum(len1);
+        MyBigNum secondNum = new MyBigNum(len2);
 
-        result = FirstNum.bigNumberAdd();
-        System.out.println(result);
+        FirstNum.bigNumberAdd(secondNum);
 
-        result = FirstNum.bigNumberSub();
-        System.out.println(result);
+        result = FirstNum.bigNumberSub(secondNum);
+        System.out.println(len1+"-"+len2+"="+result);
 
         //-----
         //result = FirstNum.bigNumberSub(len1,len2);
         //System.out.println(result);
         //-----
 
-        FirstNum.bigNumberCom1();
+        FirstNum.bigNumberCom1(secondNum);
 
         //int a = FirstNum.bigNumberCom(len2,len1);
         //System.out.println(a);
-        FirstNum.bigNumberMod();
 
-        FirstNum.bigNumberSimpleMulti();
-        FirstNum.bigNumberMul();
-        /*
-        bigNumberSimpleMulti(len1, len2);
-        System.out.println(len1 + "-" + len2 + "=" + bigNumberSub(len1, len2));
-        System.out.println(len1 + "+" + len2 + "=" + bigNumberAdd(len1, len2));
-        bigNumberCom1(len1, len2);
-        bigNumberMod(len1, len2);
-        bigNumberMul(len1, len2);
-        */
+        FirstNum.bigNumberSimpleMulti(secondNum);
+
+        FirstNum.bigNumberMul(secondNum);
+        //System.out.println(FirstNum.getString());
+
+        FirstNum.bigNumberMod(secondNum);
+
+
+
     }
 
 
