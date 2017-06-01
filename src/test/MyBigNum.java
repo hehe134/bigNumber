@@ -4,13 +4,18 @@
 package test;
 
 public class MyBigNum {
-    char[] a;
+    int[] a;
     String f, s;
-    char[] b;
+//    char[] b;
 
 
     public MyBigNum(String f) {//, String s) {
-        a = new StringBuffer(f).reverse().toString().toCharArray();
+        //a = new  Integer.parseInt(StringBuffer(f).reverse().toString().toCharArray());
+        a=new int[f.length()];
+        for (int i = 0; i < f.length(); i++) {
+            a[i] = Integer.parseInt(String.valueOf(f.charAt(i)));
+        }
+
         //b = new StringBuffer(s).reverse().toString().toCharArray();
         this.f = f;
         //this.s = s;
@@ -25,7 +30,7 @@ public class MyBigNum {
         //f>s -> 2
         //f=s   ->1
         // f<s   -> 0
-        if(f.charAt(0) == '-')
+        if (f.charAt(0) == '-')
             return -1;
         char[] a = new String(f).toCharArray();
         char[] b = new String(s).toCharArray();
@@ -44,52 +49,76 @@ public class MyBigNum {
     }
 
     //Compare1
-    public void bigNumberCom1(MyBigNum secondNum) {
+    public int bigNumberCom1(MyBigNum secondNum) {
         //f>s -> 2
         //f=s   ->1
         // f<s   -> 0
         s = secondNum.getString();
-        if (bigNumberCom(f, s) == 0) System.out.println(f + "=" + s);
-        if (bigNumberCom(f, s) > 0) System.out.println(f + ">" + s);
-        if (bigNumberCom(f, s) < 0) System.out.println(f + "<" + s);
+        if (f.charAt(0) == '-')
+            return -1;
+        char[] a = new String(f).toCharArray();
+        char[] b = new String(s).toCharArray();
+        int lenA = a.length;
+        int lenB = b.length;
+
+        if (lenA < lenB) return -1;
+        else if (lenA > lenB) return 1;
+        else {
+            for (int i = 0; i < lenA; i++) {
+                if (a[i] < b[i]) return -1;
+                else if (a[i] > b[i]) return 1;
+            }
+            return 0;
+       }
+//        s = secondNum.getString();
+//        if (bigNumberCom(f, s) == 0) System.out.println(f + "=" + s);
+//        if (bigNumberCom(f, s) > 0) System.out.println(f + ">" + s);
+//        if (bigNumberCom(f, s) < 0) System.out.println(f + "<" + s);
     }
 
     // разделить
-    public void bigNumberMul(MyBigNum secondNum) {
+    public int bigNumberMul(MyBigNum secondNum) {
         s = secondNum.getString();
         int n = 1;
         String f1 = f;
         if (bigNumberCom(f, s) == -1)
-            System.out.println(f + "/" + s + "=" + 0);
+//            System.out.println(f + "/" + s + "=" + 0);
+            return 0;
         else if (bigNumberCom(f, s) == 0)
-            System.out.println(f + "/" + s + "=" + 1);
+//            System.out.println(f + "/" + s + "=" + 1);
+            return 1;
         else {
-            while (bigNumberCom(f1 = bigNumberSub(f1, s), "0") ==1) {
+            while (bigNumberCom(f1 = bigNumberSub(f1, s), "0") == 1) {
                 n++;
             }
-            System.out.println(f + "/" + s + "=" + n);
+            //System.out.println(f + "/" + s + "=" + n);
+            return n;
         }
     }
 
     // остаток
-    public void bigNumberMod(MyBigNum secondNum) {
+    public MyBigNum bigNumberMod(MyBigNum secondNum) {
         s = secondNum.getString();
         int n = 0;
         String f1 = f;
 
-        if (bigNumberCom(f, s) == -1)
-            System.out.println(f + "%" + s + "=" + f);
+        if (bigNumberCom(f, s) == -1) return new MyBigNum(f);
+//            System.out.println(f + "%" + s + "=" + f);
         else if (bigNumberCom(f, s) == 0)
-            System.out.println(f + "%" + s + "=" + 0);
-        else {while (bigNumberCom(f1 = bigNumberSub(f1, s), s) == 1) {
+//            System.out.println(f + "%" + s + "=" + 0);
+
+            return new MyBigNum("0");
+        else {
+            while (bigNumberCom(f1 = bigNumberSub(f1, s), s) == 1) {
                 n++;
 
             }
-        System.out.println(f + "%" + s + "=" + f1);}
+            return new MyBigNum(f1);
+        }
     }
 
     // вычесть
-    public String bigNumberSub(MyBigNum secondNum) {
+    public MyBigNum bigNumberSub(MyBigNum secondNum) {
         char[] a = new StringBuffer(f).reverse().toString().toCharArray();
         char[] b = new StringBuffer(secondNum.getString()).reverse().toString().toCharArray();
         int lenA = a.length;
@@ -139,7 +168,7 @@ public class MyBigNum {
         if (sb.toString().equals("")) {
             sb.append("0");
         }
-        return sb.toString();
+        return new MyBigNum(sb.toString());
     }
 
 
@@ -199,7 +228,7 @@ public class MyBigNum {
 
 
     //сложить
-    public void bigNumberAdd(MyBigNum secondNum) {
+    public MyBigNum bigNumberAdd(MyBigNum secondNum) {
         char[] a = new StringBuffer(f).reverse().toString().toCharArray();
         char[] b = new StringBuffer(secondNum.getString()).reverse().toString().toCharArray();
         int lenA = a.length;
@@ -227,12 +256,11 @@ public class MyBigNum {
             }
             sb.append(result[i]);
         }
-
-        System.out.println(f + "+" + secondNum.getString() + "=" + sb.toString());
+        return new MyBigNum(sb.toString());
     }
 
     // умножить
-    public void bigNumberSimpleMulti(MyBigNum secondNum) {
+    public MyBigNum bigNumberSimpleMulti(MyBigNum secondNum) {
         s = secondNum.getString();
 
         System.out.print(f + "*" + s + "=");
@@ -264,6 +292,13 @@ public class MyBigNum {
             }
             sb.append(result[i]);
         }
-        System.out.println(sb.toString());
+        return new MyBigNum(sb.toString());
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
+
+
 }
